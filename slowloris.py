@@ -96,7 +96,7 @@ def init_socket(ip):
 
 def main():
     ip = args.host
-    socket_count = args.sockets
+    socket_count = 33
     logging.info("Attacking %s with %s sockets.", ip, socket_count)
 
     logging.info("Creating sockets...")
