@@ -20,6 +20,7 @@ while (firstTimeout == False):
         print "Lista de ips dos bots ativos obtida:"
         print serverNameList
         firstTimeout = True
+        serverSocket.close()
 
 if len(serverNameList) > 0:
     #envia um comando para todos os bots na lista de ips obtidos
