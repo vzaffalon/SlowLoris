@@ -8,14 +8,15 @@ serverPortSubscription = 11749
 print "Recebendo ips dos bots ativos..."
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind(('',serverPortSubscription))
-serverSocket.listen(1)
-serverSocket.settimeout(8)
+serverSocket.listen(15)
+serverSocket.settimeout(10)
 firstTimeout = False
 while (firstTimeout == False):
     try:
         connectionSocket, addr = serverSocket.accept()
         subscriptionConfirmation = connectionSocket.recv(1024)
         serverNameList.append(addr[0])
+        print str(addr[0]) + " foi inscrito na lista"
     except error, exc:
         print "Lista de ips dos bots ativos obtida:"
         print serverNameList

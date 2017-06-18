@@ -24,7 +24,7 @@ while subscriptionConfirmed == False:
 #espera o recebimento de um comando do cliente
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind(('',serverPort))
-serverSocket.listen(1)
+serverSocket.listen(10)
 print 'Processo zumbi preparado para receber comandos.'
 while 1:
     connectionSocket, addr = serverSocket.accept()
