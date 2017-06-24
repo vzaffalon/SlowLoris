@@ -41,4 +41,4 @@ if len(serverNameList) > 0:
         except error, exc:
             print "Nao foi possivel conectar com " + serverName
 else:
-    print "nenhum bot ativo na rede"
+    print "Nenhum bot ativo na rede"
