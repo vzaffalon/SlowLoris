@@ -27,7 +27,8 @@ if len(sys.argv) == 2:
 
     #espera o recebimento de um comando do cliente
     serverSocket = socket(AF_INET,SOCK_STREAM)
-    serverSocket.bind((masterClientIp,serverPort))
+    #serverSocket.bind((masterClientIp,serverPort))
+    serverSocket.bind(('',serverPort))
     serverSocket.listen(10)
     print 'Processo zumbi preparado para receber comandos.'
     while 1:
